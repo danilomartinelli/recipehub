@@ -1,0 +1,16 @@
+{
+  "status": "ready",
+  "canProceed": true,
+  "missingSecrets": [],
+  "architectNotes": [
+    "[PRD]: Projeto standalone Astro — NÃO é Turborepo/monorepo. Ignorar global_stack de pnpm workspaces para esta sprint. A estrutura raiz é recipehub-landing/ com src/components/, src/data/, src/layouts/, src/pages/.",
+    "[PRD]: Zero JavaScript no cliente é requisito hard. Astro output deve ser 'static'. Adicionar prefetch: false no astro.config.mjs para evitar script de prefetch automático do Astro (CE-003).",
+    "[PRD]: Nenhum binding Cloudflare, nenhuma API externa, nenhuma variável de ambiente necessária. Sprint 100% estática — canProceed=true sem bloqueios.",
+    "[PRD]: TailwindCSS via integração @astrojs/tailwind (^5.x) — NUNCA via CDN/script tag, pois injetaria JS no cliente. line-clamp-2 está nativo no Tailwind >= 3.3 (versão exigida é ^3.x, confirmar >= 3.3 no lock).",
+    "[PRD]: Formulário de newsletter é puramente visual — form sem action funcional, sem method POST, sem onsubmit. Adicionar action='#' para evitar GET com query string na URL (CE-002).",
+    "[PRD]: Placeholder de imagem nos cards deve ser div com bg-gradient-to-br + emoji centralizado via flexbox. PROIBIDO usar tag img com src externo.",
+    "[PRD]: Deploy via wrangler pages deploy dist --project-name=recipehub-landing. Requer autenticação wrangler login ou CLOUDFLARE_API_TOKEN+CLOUDFLARE_ACCOUNT_ID no ambiente do SO (não do projeto). Verificar autenticação antes do deploy (RST-005).",
+    "[PRD]: wrangler.toml (não wrangler.jsonc) para este projeto standalone com pages_build_output_dir='dist'."
+  ],
+  "reuseCandidates": []
+}
