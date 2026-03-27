@@ -1,0 +1,25 @@
+---
+import { recipes } from "../data/recipes";
+import RecipeCard from "./RecipeCard.astro";
+---
+
+<section id="recipes" class="container mx-auto px-4 py-16">
+  <h2 class="text-4xl font-bold text-center mb-12 font-serif text-stone-800">
+    Nossas Receitas
+  </h2>
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto"
+  >
+    {
+      recipes.map((recipe) => (
+        <RecipeCard
+          gradientFrom={recipe.gradientFrom}
+          gradientTo={recipe.gradientTo}
+          emoji={recipe.emoji}
+          title={recipe.title}
+          prepTimeLabel={recipe.prepTimeLabel}
+        />
+      ))
+    }
+  </div>
+</section>
