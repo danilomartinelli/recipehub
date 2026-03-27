@@ -1,0 +1,20 @@
+{
+  "status": "ready",
+  "canProceed": true,
+  "missingSecrets": [],
+  "architectNotes": [
+    "[INFRA]: Esta sprint é zero-infraestrutura. O PRD declara explicitamente: nenhum binding Cloudflare (D1, R2, KV, Queues), nenhuma API externa, nenhuma variável de ambiente. O workspace apps/web utiliza apenas Node.js local para o build Astro via pnpm.",
+    "[STACK]: Criar apps/web como workspace Astro v4.x com as dependências astro, @astrojs/tailwind e tailwindcss instaladas EXCLUSIVAMENTE em apps/web/package.json — nunca no root do monorepo (RT-03).",
+    "[CONFIG]: astro.config.mjs DEVE declarar output: 'static' explicitamente (RT-01). Sem esta flag, o Astro pode assumir modo SSR em futuras integrações com Workers.",
+    "[ZERO-JS]: Nenhuma diretiva client:* é permitida (client:load, client:idle, client:visible, client:media, client:only). O build final em dist/ não deve conter nenhum arquivo .js de hidratação de componente (REQ-016, RT-02).",
+    "[TURBO]: Registrar apps/web no pnpm-workspace.yaml da raiz e garantir que turbo.json inclua o pipeline build com outputs: ['dist/**'] e dev com cache: false, persistent: true (REQ-001, REQ-002).",
+    "[TYPESCRIPT]: tsconfig.json deve estender astro/tsconfigs/strict com baseUrl: '.' — strict mode ativado. A interface Recipe em src/data/types.ts deve ser usada explicitamente nos props de RecipeCard.astro — nenhum uso de any (RT-07).",
+    "[DATA]: FEATURED_RECIPES deve conter exatamente 6 objetos hardcoded em src/data/recipes.ts. Zero fetch, import dinâmico ou CMS. Os dados já estão especificados no PRD Seção 2.2 e devem ser copiados literalmente (REQ-008).",
+    "[GRID-RESPONSIVO]: RecipeGrid.astro deve usar grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 — colapso para 1 coluna em mobile é obrigatório (RT-06).",
+    "[NEWSLETTER]: O <form> em NewsletterForm.astro NÃO deve ter atributo action. É puramente visual. Zero event listeners, zero fetch(), zero <script> (REQ-013). O <input type='email'> deve ter <label for='email'> associado para acessibilidade (US-004).",
+    "[PLACEHOLDERS]: Imagens de receitas são blocos <div class='bg-gray-200 h-48 w-full'> — nenhuma requisição de rede para imagem externa. Sem Google Fonts ou qualquer fonte carregada via rede (NG-08, NG-09).",
+    "[NON-GOALS CRÍTICOS]: Os seguintes itens são scope creep e devem ser bloqueados: formulário funcional com submissão, qualquer binding Cloudflare, deploy no Pages, pacotes em packages/ui ou packages/shared, páginas adicionais além de index.astro, React islands ou qualquer framework de UI client-side.",
+    "[DOD]: Sprint concluída quando pnpm --filter web build retorna exit 0, apps/web/dist/index.html existe com exatamente 6 cards renderizados, form sem action, zero arquivos .js de hidratação em dist/, e tsc --noEmit retorna zero erros."
+  ],
+  "reuseCandidates": []
+}
