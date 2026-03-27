@@ -1,0 +1,18 @@
+{
+  "status": "ready",
+  "canProceed": true,
+  "missingSecrets": [],
+  "architectNotes": [
+    "[INFO] Sprint sp-021 cria um novo workspace Astro em apps/web. Verificar se apps/web já existe via list_directory antes de criar arquivos. Se não existir, criar do zero conforme PRD.",
+    "[INFO] Nenhum binding Cloudflare necessário nesta Sprint. A landing page é 100% estática — sem Workers, D1, R2, KV ou Queues.",
+    "[INFO] Nenhuma variável de ambiente necessária. Nenhum secret externo requerido. picsum.photos é um serviço público sem autenticação.",
+    "[ARCH] astro.config.mjs deve usar output: 'static' SEM @astrojs/cloudflare adapter. Para sites 100% estáticos, o Cloudflare Pages serve o HTML puro diretamente sem adapter.",
+    "[ARCH] TailwindCSS deve ser configurado localmente em apps/web/tailwind.config.mjs — NÃO herdar de tooling/. Paleta brand com orange #C2612A, tomato #B83232, cream #F5EFE6, dark #2C1A0E.",
+    "[ARCH] REQ-009 é crítico: PROIBIDO client:load, client:idle, client:visible, <script> tags, e componentes React/Vue/Svelte hidratados. Validar com grep -r '<script' apps/web/dist/ após build.",
+    "[ARCH] O formulário de newsletter (REQ-004) NÃO deve ter atributo action nem method. Manter type='submit' no botão (semântica correta) — o reload para GET / é comportamento aceitável.",
+    "[ARCH] Garantir que pnpm-workspace.yaml inclui apps/* e que turbo.json raiz inclui o pipeline de build para o workspace @recipehub/web.",
+    "[ARCH] Fonte Inter deve ser carregada via Google Fonts no <head> do BaseLayout.astro com preconnect para fonts.googleapis.com e fonts.gstatic.com — NÃO via @font-face local.",
+    "[ARCH] Tags <img> dos RecipeCards devem ter width='600' height='400' loading='lazy' explícitos para CLS=0 mesmo se picsum.photos estiver indisponível durante build."
+  ],
+  "reuseCandidates": []
+}
