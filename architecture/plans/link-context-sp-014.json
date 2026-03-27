@@ -1,0 +1,17 @@
+{
+  "status": "ready",
+  "canProceed": true,
+  "missingSecrets": [],
+  "architectNotes": [
+    "[PRD-CONSTRAINT]: Este é um projeto Astro STANDALONE (não monorepo). A estrutura de pastas raiz deve ser criada do zero — NÃO integrar ao Turborepo existente. Entrypoint principal: src/pages/index.astro.",
+    "[PRD-CONSTRAINT]: output: 'static' é OBRIGATÓRIO no astro.config.mjs. NÃO instalar @astrojs/cloudflare (adaptador de Workers). O deploy é via wrangler pages deploy dist/, não wrangler deploy.",
+    "[PRD-CONSTRAINT]: Zero diretivas client:* permitidas. Usar exclusivamente componentes .astro puros — nenhum framework UI (React, Vue, Svelte). Qualquer uso de client:load ou similar viola a regra absoluta de zero JS no cliente.",
+    "[PRD-CONSTRAINT]: NÃO usar URLs externas de placeholder (picsum.photos, placehold.co). Usar <div> com style background-color inline conforme campo imagePlaceholder em src/data/recipes.ts.",
+    "[PRD-DATA]: Os 6 cards de receita são hardcoded em src/data/recipes.ts. Nenhuma API, CMS ou fetch necessário. O array recipes[] já está definido canonicamente no PRD — usar exatamente aquela estrutura.",
+    "[PRD-DEPLOY]: wrangler.toml deve conter name = 'recipehub-landing' e pages_build_output_dir = 'dist'. Comando de deploy: npx wrangler pages deploy dist/ --project-name recipehub-landing.",
+    "[PRD-STYLE]: Cor de destaque é green-500 (#22c55e) via classes Tailwind utilitárias (bg-green-500, hover:bg-green-600, text-green-500). Grid responsivo: grid-cols-1 sm:grid-cols-2 md:grid-cols-3. Breakpoints lg/xl/2xl fora do escopo.",
+    "[PRD-COMPONENTS]: Estrutura de componentes obrigatória: Hero.astro, RecipeCard.astro (com data-recipe-card na raiz), RecipeGrid.astro, NewsletterSection.astro, BaseLayout.astro. O formulário newsletter NÃO deve ter atributo action nem handlers JS.",
+    "[CLOUDFLARE]: Nenhum binding necessário (zero D1, R2, KV, Queues, DO). Deploy exclusivamente via Cloudflare Pages (static hosting). Wrangler CLI deve estar autenticado (wrangler login) antes do deploy."
+  ],
+  "reuseCandidates": []
+}
