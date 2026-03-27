@@ -1,0 +1,19 @@
+{
+  "status": "ready",
+  "canProceed": true,
+  "missingSecrets": [],
+  "architectNotes": [
+    "[IDENTITY]: Projeto identificado como 'RecipeHub Landing Page' — landing page estática para RecipeHub usando Astro com TailwindCSS, deploy no Cloudflare Pages.",
+    "[STACK]: Sprint utiliza Astro + TailwindCSS com zero JavaScript no cliente. Conforme global_stack do system-rules.md, Astro e TailwindCSS são tecnologias suportadas no frontend stack do projeto.",
+    "[CLOUDFLARE]: Deploy no Cloudflare Pages — nenhum binding de plataforma (D1, R2, KV, AI) é necessário para esta sprint. Página 100% estática, sem backend.",
+    "[NO-SECRETS]: Sprint não requer nenhuma API externa, token, chave ou credencial. Nenhum segredo precisa ser configurado. canProceed=true imediato.",
+    "[ASTRO-STATIC]: Garantir que o build Astro esteja configurado com output: 'static' no astro.config.mjs para gerar HTML puro sem SSR. Cloudflare Pages serve diretamente o dist/ gerado.",
+    "[TAILWIND-INTEGRATION]: Integrar TailwindCSS via @astrojs/tailwind (integration oficial). Adicionar ao astro.config.mjs: import tailwind from '@astrojs/tailwind' e incluir em integrations: [tailwind()].",
+    "[ZERO-JS]: Garantir que nenhum componente use diretivas client: (client:load, client:visible, etc.). Todos os componentes devem ser renderizados apenas em build-time. React/Vue/Svelte NÃO devem ser adicionados como integrations se o objetivo é zero JS no cliente.",
+    "[HARDCODED-DATA]: Os 6 cards de receitas e o formulário de newsletter são hardcoded no próprio .astro file. Nenhuma chamada de API, nenhum fetch, nenhum estado reativo.",
+    "[NEWSLETTER-FORM]: O formulário de newsletter é VISUAL apenas — sem action real, sem JavaScript de submit. Apenas HTML puro com method e action placeholders para futura integração.",
+    "[IMAGE-PLACEHOLDERS]: Usar imagens placeholder via serviços como picsum.photos ou placehold.co para os cards de receitas. Ex: <img src='https://picsum.photos/seed/recipe1/400/300' alt='Receita 1' />.",
+    "[FINDINGS]: Nenhum finding registrado ainda no projeto. Esta é presumivelmente a Sprint 1."
+  ],
+  "reuseCandidates": []
+}
