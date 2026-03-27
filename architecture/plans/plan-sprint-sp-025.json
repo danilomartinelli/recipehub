@@ -1,0 +1,72 @@
+{
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "Configurar projeto Astro standalone com TailwindCSS",
+      "description": "Criar a estrutura base do projeto Astro standalone com output static, configurar astro.config.mjs, tailwind.config.mjs (com safelist de gradientes), tsconfig.json (strict: true), package.json com dependências corretas, e o BaseLayout.astro com fontes Google (Playfair Display + Inter) carregadas sem bloquear render.",
+      "requiredSpecialist": "FrontendSpecialist",
+      "dependencies": [],
+      "acceptanceCriteria": [
+        "astro.config.mjs tem output: 'static' e integração @astrojs/tailwind — zero adapter @astrojs/cloudflare",
+        "tailwind.config.mjs contém safelist com todas as classes from-* e to-* das 6 receitas conforme PRD Seção 8.2",
+        "tsconfig.json tem strict: true e nenhum any implícito",
+        "BaseLayout.astro inclui <meta charset='UTF-8'>, <meta name='viewport'>, <title>RecipeHub</title>, preconnect para fonts.googleapis.com e fonts.gstatic.com com display=swap",
+        "fontFamily no tailwind.config.mjs estende serif para Playfair Display e sans para Inter",
+        "package.json lista astro ^4.x, @astrojs/tailwind ^5.x, tailwindcss ^3.x, typescript ^5.x como devDependencies — zero dependencies de runtime",
+        "astro build conclui sem erros de TypeScript"
+      ],
+      "subtasks": [
+        "Criar package.json com devDependencies: astro ^4.x, @astrojs/tailwind ^5.x, tailwindcss ^3.x, typescript ^5.x",
+        "Criar astro.config.mjs com output: 'static' e integrations: [tailwind()]",
+        "Criar tailwind.config.mjs com content glob, safelist completo de gradientes (12 classes from-*/to-*), fontFamily serif/sans estendido",
+        "Criar tsconfig.json com strict: true, target ESNext, module ESNext",
+        "Criar src/layouts/BaseLayout.astro com head completo (meta, title, preconnect, link Google Fonts) e body com classes bg-stone-50 text-stone-800 font-sans antialiased"
+      ],
+      "targetFiles": [
+        "package.json",
+        "astro.config.mjs",
+        "tailwind.config.mjs",
+        "tsconfig.json",
+        "src/layouts/BaseLayout.astro"
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "Implementar data layer e componentes da landing page",
+      "description": "Criar src/data/recipes.ts exportando o tipo Recipe e array com exatamente 6 receitas hardcoded. Criar os componentes HeroSection.astro, RecipesGrid.astro, RecipeCard.astro e NewsletterSection.astro. Montar src/pages/index.astro com as 3 seções + footer. Zero diretivas client:*, zero <img> externas, zero CSS inline.",
+      "requiredSpecialist": "FrontendSpecialist",
+      "dependencies": [
+        "T1"
+      ],
+      "acceptanceCriteria": [
+        "src/data/recipes.ts exporta interface Recipe com campos: title, category, prepTimeLabel, emoji, gradientFrom, gradientTo — e array recipes com exatamente 6 itens",
+        "Nenhum componente .astro contém diretiva client:load, client:idle, client:visible ou qualquer client:*",
+        "RecipeCard.astro usa div com classes bg-gradient-to-br + recipe.gradientFrom + recipe.gradientTo para placeholder — zero <img> com src externo",
+        "RecipesGrid.astro tem id='recipes' na seção e grid com classes grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+        "HeroSection.astro contém botão/link 'Ver Receitas' com href='#recipes', título com font-serif, subtítulo com font-sans",
+        "NewsletterSection.astro contém <form> com <input type='email'> e <button type='submit'> — zero onsubmit, zero addEventListener, zero script",
+        "Fundo da NewsletterSection usa bg-amber-50 ou bg-stone-100 para separação visual",
+        "Input e botão do formulário usam flex-col sm:flex-row para responsividade",
+        "footer em index.astro exibe '© 2025 RecipeHub. Todos os direitos reservados.'",
+        "astro build gera dist/index.html sem tags <script> com código de comportamento — zero arquivos .js no bundle cliente",
+        "dist/index.html contém as 3 seções: Hero, Grid com 6 cards, Newsletter"
+      ],
+      "subtasks": [
+        "Criar src/data/recipes.ts com export type Recipe e export const recipes (6 receitas com title, category, prepTimeLabel, emoji, gradientFrom, gradientTo — gradientes devem usar classes presentes no safelist)",
+        "Criar src/components/HeroSection.astro com título font-serif, subtítulo font-sans, CTA href='#recipes', paleta amber/terracota/stone/creme",
+        "Criar src/components/RecipeCard.astro conforme template da Seção 8.5 do PRD — gradiente dinâmico + emoji centralizado + title + prepTimeLabel",
+        "Criar src/components/RecipesGrid.astro com section id='recipes', iteração sobre recipes[], grid responsivo 1/2/3 colunas",
+        "Criar src/components/NewsletterSection.astro com fundo diferenciado, título, subtítulo, <form> puro sem JS, input email + button submit, layout flex-col sm:flex-row",
+        "Criar src/pages/index.astro importando BaseLayout + 4 componentes + footer hardcoded conforme Seção 8.4 do PRD"
+      ],
+      "targetFiles": [
+        "src/data/recipes.ts",
+        "src/components/HeroSection.astro",
+        "src/components/RecipeCard.astro",
+        "src/components/RecipesGrid.astro",
+        "src/components/NewsletterSection.astro",
+        "src/pages/index.astro"
+      ]
+    }
+  ]
+}
