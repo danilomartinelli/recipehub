@@ -1,0 +1,81 @@
+{
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "Setup do Workspace apps/web (Astro + TailwindCSS)",
+      "description": "Como frontend_specialist, eu quero criar o workspace apps/web com todas as configurações de projeto necessárias: package.json, astro.config.mjs, tailwind.config.mjs, tsconfig.json, e atualizar pnpm-workspace.yaml e turbo.json raiz para incluir o novo workspace @recipehub/web no pipeline de build.",
+      "requiredSpecialist": "FrontendSpecialist",
+      "dependencies": [],
+      "acceptanceCriteria": [
+        "package.json tem name '@recipehub/web' e scripts build, dev, check",
+        "astro.config.mjs usa output: 'static' SEM @astrojs/cloudflare adapter, apenas @astrojs/tailwind",
+        "tailwind.config.mjs define paleta brand (orange #C2612A, tomato #B83232, cream #F5EFE6, dark #2C1A0E) e fontFamily Inter",
+        "pnpm-workspace.yaml inclui 'apps/*'",
+        "turbo.json raiz inclui pipeline de build para @recipehub/web",
+        "Typecheck passa (astro check sem erros)"
+      ],
+      "subtasks": [
+        "Verificar se apps/web já existe via list_directory apps/",
+        "Criar apps/web/package.json com name @recipehub/web e scripts build/dev/check",
+        "Criar apps/web/astro.config.mjs com output: 'static' e integração tailwind",
+        "Criar apps/web/tailwind.config.mjs com paleta brand e fontFamily Inter",
+        "Criar apps/web/tsconfig.json extendendo astro/tsconfigs/strict",
+        "Verificar e atualizar pnpm-workspace.yaml raiz para incluir apps/*",
+        "Verificar e atualizar turbo.json raiz para incluir build pipeline do workspace web"
+      ],
+      "targetFiles": [
+        "apps/web/package.json",
+        "apps/web/astro.config.mjs",
+        "apps/web/tailwind.config.mjs",
+        "apps/web/tsconfig.json",
+        "pnpm-workspace.yaml",
+        "turbo.json"
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "Implementar Componentes, Layout, Dados e Página Index da Landing Page",
+      "description": "Como frontend_specialist, eu quero criar todos os componentes Astro (BaseLayout, Hero, RecipeCard, RecipeGrid, NewsletterForm), o arquivo de dados recipes.ts, a página index.astro e o asset og-image.jpg, resultando em uma landing page estática 100% sem JavaScript no cliente com as 3 seções core (Hero, Grid de Receitas, Newsletter).",
+      "requiredSpecialist": "FrontendSpecialist",
+      "dependencies": [
+        "T1"
+      ],
+      "acceptanceCriteria": [
+        "apps/web/src/data/recipes.ts exporta interface Recipe e array com exatamente 6 receitas usando picsum.photos",
+        "BaseLayout.astro inclui charset, viewport, title 'RecipeHub — Receitas para Inspirar sua Cozinha', meta description (120-160 chars), og:title, og:description, og:image, og:type, twitter:card summary_large_image, canonical, preconnect Google Fonts e link para Inter 400/500/600/700",
+        "Hero.astro renderiza <h1> com 'RecipeHub' classe mínima text-5xl font-bold text-brand-dark, subtítulo <p>, <a> CTA 'Ver Receitas' apontando para #receitas, fundo bg-brand-cream, min-h-[80vh] flex centralizado",
+        "RecipeCard.astro aceita props title/prepTime/imageUrl/category, renderiza <img> com width=600 height=400 loading=lazy, badge category, <h3> title, ícone SVG relógio + prepTime, <article> com hover:shadow-xl hover:-translate-y-1 transition-all duration-200",
+        "RecipeGrid.astro usa id='receitas', importa recipes.ts, grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6, renderiza 6 RecipeCard",
+        "NewsletterForm.astro renderiza <form> SEM action e SEM method, contém label + input type=email com aria-label + button type=submit, layout flex flex-col gap-3 sm:flex-row, fundo bg-brand-orange text-white",
+        "index.astro monta BaseLayout > Hero + RecipeGrid + NewsletterForm",
+        "apps/web/public/og-image.jpg existe (placeholder 1200x630)",
+        "pnpm --filter @recipehub/web build completa sem erros",
+        "grep -r '<script' apps/web/dist/ retorna vazio (zero JS no bundle)",
+        "Nenhum uso de client:load, client:idle, client:visible ou diretivas de hidratação",
+        "Typecheck passa (astro check)",
+        "Conforme SOP de Compatibilidade Edge: nenhum import de pacotes Node.js — projeto é estático puro sem Workers"
+      ],
+      "subtasks": [
+        "Criar apps/web/src/data/recipes.ts com interface Recipe e array de 6 receitas",
+        "Criar apps/web/src/layouts/BaseLayout.astro com head completo (SEO, OG, Twitter, Google Fonts preconnect + link Inter)",
+        "Criar apps/web/src/components/Hero.astro (h1 RecipeHub, subtítulo, CTA âncora #receitas, bg-brand-cream, min-h-[80vh])",
+        "Criar apps/web/src/components/RecipeCard.astro com props tipadas, img lazy, badge, ícone SVG relógio, hover transitions CSS",
+        "Criar apps/web/src/components/RecipeGrid.astro importando recipes.ts, grid responsivo 1/2/3 colunas",
+        "Criar apps/web/src/components/NewsletterForm.astro sem action/method/JS, flex responsivo, bg-brand-orange",
+        "Criar apps/web/src/pages/index.astro compondo BaseLayout com Hero + RecipeGrid + NewsletterForm",
+        "Adicionar apps/web/public/og-image.jpg como placeholder 1200x630 (usar fetch de picsum.photos/1200/630 ou criar arquivo mínimo válido)",
+        "Executar astro build e verificar dist/ sem arquivos .js"
+      ],
+      "targetFiles": [
+        "apps/web/src/data/recipes.ts",
+        "apps/web/src/layouts/BaseLayout.astro",
+        "apps/web/src/components/Hero.astro",
+        "apps/web/src/components/RecipeCard.astro",
+        "apps/web/src/components/RecipeGrid.astro",
+        "apps/web/src/components/NewsletterForm.astro",
+        "apps/web/src/pages/index.astro",
+        "apps/web/public/og-image.jpg"
+      ]
+    }
+  ]
+}
