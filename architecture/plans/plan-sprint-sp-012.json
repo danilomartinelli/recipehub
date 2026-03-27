@@ -1,0 +1,57 @@
+{
+  "tasks": [
+    {
+      "id": "T-001",
+      "title": "Criar Landing Page RecipeHub em Astro com TailwindCSS",
+      "description": "Como frontend_specialist, eu quero construir a landing page estática completa do RecipeHub usando Astro + TailwindCSS, com hero section, 6 cards de receitas com imagens placeholder, e formulário de newsletter visual (sem JavaScript no cliente).",
+      "requiredSpecialist": "FrontendSpecialist",
+      "dependencies": [],
+      "acceptanceCriteria": [
+        "Projeto Astro inicializado com output: 'static' no astro.config.mjs",
+        "TailwindCSS integrado via @astrojs/tailwind no astro.config.mjs",
+        "Hero section com título 'RecipeHub', subtítulo e CTA visível",
+        "Grid com 6 cards de receitas usando imagens de https://picsum.photos/seed/recipeN/400/300",
+        "Formulário de newsletter com input de email e botão — apenas HTML, sem action real, sem JavaScript",
+        "Zero diretivas client: (client:load, client:visible, etc.) em qualquer componente",
+        "Build estático gera HTML puro em dist/ sem JS bundle de cliente",
+        "Typecheck passa (tsc --noEmit)",
+        "Nenhum uso de React, Vue ou Svelte como integration Astro",
+        "Conforme SOP de Edge Compatibility — nenhum pacote Node.js nativo importado"
+      ],
+      "subtasks": [
+        {
+          "id": "st1",
+          "desc": "Inicializar projeto Astro com template minimal, configurar output: 'static' no astro.config.mjs, instalar @astrojs/tailwind e tailwindcss",
+          "done": false
+        },
+        {
+          "id": "st2",
+          "desc": "Criar src/layouts/BaseLayout.astro com meta tags, título e slot principal",
+          "done": false
+        },
+        {
+          "id": "st3",
+          "desc": "Criar src/components/Hero.astro com headline 'RecipeHub', subtítulo e botão CTA estilizado com Tailwind",
+          "done": false
+        },
+        {
+          "id": "st4",
+          "desc": "Criar src/components/RecipeCard.astro com props (title, image, description) e markup HTML semântico",
+          "done": false
+        },
+        {
+          "id": "st5",
+          "desc": "Criar src/components/NewsletterForm.astro com input[type=email] e button, method='post' placeholder sem action real",
+          "done": false
+        },
+        {
+          "id": "st6",
+          "desc": "Criar src/pages/index.astro compondo Hero, grid de 6 RecipeCards hardcoded e NewsletterForm; verificar que pnpm build gera dist/ sem erros",
+          "done": false
+        }
+      ],
+      "targetWorkspace": "apps/web",
+      "notes": "PRD não encontrado no repositório — plano baseado nas informações disponíveis no plano original. ATENÇÃO: validar contra PRD real antes de executar. Projeto é landing page estática — não requer Cloudflare Workers, D1 ou bindings. Se o projeto for standalone (fora de monorepo Turborepo), ajustar targetWorkspace para raiz do projeto."
+    }
+  ]
+}
