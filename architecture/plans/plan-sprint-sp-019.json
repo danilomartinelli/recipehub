@@ -1,0 +1,85 @@
+{
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "Configurar workspace apps/web no monorepo Turborepo",
+      "description": "Criar o workspace Astro apps/web com todos os arquivos de configuração necessários para integração ao monorepo: package.json, astro.config.mjs, tailwind.config.mjs, tsconfig.json. Atualizar pnpm-workspace.yaml e turbo.json na raiz para registrar o novo workspace no pipeline.",
+      "requiredSpecialist": "FrontendSpecialist",
+      "dependencies": [],
+      "acceptanceCriteria": [
+        "package.json em apps/web tem name: 'web' com scripts dev, build, preview e check mapeados para comandos Astro",
+        "astro.config.mjs declara output: 'static' explicitamente e integra @astrojs/tailwind",
+        "tailwind.config.mjs tem content apontando para ./src/**/*.{astro,html,js,ts}",
+        "tsconfig.json estende astro/tsconfigs/strict com baseUrl: '.'",
+        "pnpm-workspace.yaml na raiz inclui 'apps/web' como workspace",
+        "turbo.json na raiz tem pipeline build com outputs: ['dist/**'] e dev com cache: false, persistent: true",
+        "Dependências astro, @astrojs/tailwind e tailwindcss instaladas SOMENTE em apps/web/package.json — nunca no root",
+        "tsc --noEmit dentro de apps/web retorna zero erros"
+      ],
+      "subtasks": [
+        "Criar apps/web/package.json com name: 'web', scripts astro e dependências (astro ^4.x, @astrojs/tailwind ^5.x, tailwindcss ^3.4.x, typescript devDependency)",
+        "Criar apps/web/astro.config.mjs com output: 'static' e integração tailwind conforme RT-01",
+        "Criar apps/web/tailwind.config.mjs com content glob para src/",
+        "Criar apps/web/tsconfig.json estendendo astro/tsconfigs/strict com baseUrl: '.'",
+        "Atualizar pnpm-workspace.yaml na raiz adicionando 'apps/web' (ou 'apps/*')",
+        "Atualizar turbo.json na raiz com tasks build (outputs: ['dist/**']) e dev (cache: false, persistent: true)",
+        "Criar apps/web/public/favicon.svg com SVG mínimo válido"
+      ],
+      "targetFiles": [
+        "apps/web/package.json",
+        "apps/web/astro.config.mjs",
+        "apps/web/tailwind.config.mjs",
+        "apps/web/tsconfig.json",
+        "pnpm-workspace.yaml",
+        "turbo.json",
+        "apps/web/public/favicon.svg"
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "Implementar landing page estática RecipeHub com todos os componentes Astro",
+      "description": "Criar os arquivos de dados tipados (types.ts, recipes.ts) e todos os componentes Astro (BaseLayout, Hero, RecipeCard, RecipeGrid, NewsletterForm) e a página index.astro. Zero JavaScript no cliente, zero diretivas client:*, formulário sem action, imagens via bg-gray-200 puro.",
+      "requiredSpecialist": "FrontendSpecialist",
+      "dependencies": [
+        "T1"
+      ],
+      "acceptanceCriteria": [
+        "src/data/types.ts exporta interface Recipe com campos id, title, prepTime, difficulty, category, description — sem campos extras",
+        "src/data/recipes.ts exporta FEATURED_RECIPES com exatamente 6 objetos Recipe hardcoded conforme PRD Seção 2.2 — zero fetch ou import dinâmico",
+        "BaseLayout.astro tem estrutura HTML5 completa com lang='pt-BR', meta charset, meta viewport, title 'RecipeHub' e slot",
+        "Hero.astro usa tag semântica section ou header, contém h1 com título principal, parágrafo de subtítulo e elemento CTA estilizado com Tailwind — zero client:*",
+        "RecipeCard.astro recebe prop recipe: Recipe tipado explicitamente (sem any), renderiza div bg-gray-200 h-48 como placeholder, h3 com título, tempo de preparo, dificuldade, categoria e descrição",
+        "RecipeGrid.astro usa grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6, itera FEATURED_RECIPES com .map() renderizando RecipeCard — zero lógica de filtro ou paginação",
+        "NewsletterForm.astro tem form SEM atributo action, label for='email' associado a input type='email' id='email', button type='submit' — zero script ou event listener",
+        "index.astro usa BaseLayout, compõe Hero + RecipeGrid + NewsletterForm na ordem, zero blocos script client:*",
+        "pnpm --filter web build retorna exit 0 e gera apps/web/dist/index.html",
+        "dist/index.html contém exatamente 6 cards de receita renderizados",
+        "dist/index.html contém form de newsletter sem atributo action",
+        "Nenhum arquivo .js de hidratação de componente em dist/",
+        "tsc --noEmit retorna zero erros (strict mode, sem any)",
+        "Zero requisições de rede para imagem ou fonte externa necessárias para renderizar a página"
+      ],
+      "subtasks": [
+        "Criar apps/web/src/data/types.ts com interface Recipe (id, title, prepTime, difficulty, category, description)",
+        "Criar apps/web/src/data/recipes.ts com array FEATURED_RECIPES de 6 receitas hardcoded conforme PRD Seção 2.2",
+        "Criar apps/web/src/layouts/BaseLayout.astro com HTML5 completo, lang='pt-BR', meta tags, title e slot",
+        "Criar apps/web/src/components/Hero.astro com section semântica, h1, parágrafo subtítulo e CTA Tailwind — zero JS",
+        "Criar apps/web/src/components/RecipeCard.astro com prop recipe: Recipe tipado, placeholder bg-gray-200 h-48, h3 título, tempo, dificuldade, categoria, descrição — conforme referência PRD Seção 8",
+        "Criar apps/web/src/components/RecipeGrid.astro com grid responsivo Tailwind e mapeamento de FEATURED_RECIPES para RecipeCard",
+        "Criar apps/web/src/components/NewsletterForm.astro com form sem action, label+input email acessível, button submit — zero script",
+        "Criar apps/web/src/pages/index.astro compondo BaseLayout > Hero > RecipeGrid > NewsletterForm sem diretivas client:*",
+        "Executar pnpm --filter web build e verificar dist/index.html gerado com 6 cards e form sem action"
+      ],
+      "targetFiles": [
+        "apps/web/src/data/types.ts",
+        "apps/web/src/data/recipes.ts",
+        "apps/web/src/layouts/BaseLayout.astro",
+        "apps/web/src/components/Hero.astro",
+        "apps/web/src/components/RecipeCard.astro",
+        "apps/web/src/components/RecipeGrid.astro",
+        "apps/web/src/components/NewsletterForm.astro",
+        "apps/web/src/pages/index.astro"
+      ]
+    }
+  ]
+}
