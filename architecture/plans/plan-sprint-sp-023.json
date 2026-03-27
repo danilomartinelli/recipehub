@@ -1,0 +1,77 @@
+{
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "Scaffold do Projeto Astro + Configurações Base",
+      "description": "Criar toda a estrutura base do projeto standalone recipehub-landing: package.json, astro.config.mjs (output static + prefetch false), tailwind.config.mjs, tsconfig.json, wrangler.toml e BaseLayout.astro com todas as meta tags SEO exigidas pelo PRD.",
+      "requiredSpecialist": "FrontendSpecialist",
+      "dependencies": [],
+      "acceptanceCriteria": [
+        "package.json contém scripts dev/build/preview/deploy e dependências astro ^4.x, @astrojs/tailwind ^5.x, tailwindcss ^3.x, wrangler ^3.x",
+        "astro.config.mjs define output: 'static', prefetch: false e integração @astrojs/tailwind (sem framework JS)",
+        "tailwind.config.mjs estende paleta com brand.amber, brand.terracota, brand.dark e content aponta para ./src/**/*.{astro,html,js,ts}",
+        "wrangler.toml contém name='recipehub-landing' e pages_build_output_dir='dist'",
+        "BaseLayout.astro inclui charset, viewport, title, meta description, og:title, og:description, og:type — sem fontes externas",
+        "Typecheck passa (tsc --noEmit)"
+      ],
+      "subtasks": [
+        "Criar package.json com name recipehub-landing, type module, scripts e dependências conforme REQ-002",
+        "Criar astro.config.mjs com output static, prefetch false e integração tailwind conforme REQ-003 e CE-003",
+        "Criar tailwind.config.mjs com content glob e extensão de paleta brand conforme REQ-014",
+        "Criar tsconfig.json compatível com Astro (extends astro/tsconfigs/strict)",
+        "Criar wrangler.toml com pages_build_output_dir=dist e compatibility_date conforme REQ-004",
+        "Criar src/layouts/BaseLayout.astro com todas as meta tags de REQ-005 e slot para conteúdo",
+        "Criar public/favicon.svg com SVG mínimo válido"
+      ],
+      "targetFiles": [
+        "package.json",
+        "astro.config.mjs",
+        "tailwind.config.mjs",
+        "tsconfig.json",
+        "wrangler.toml",
+        "src/layouts/BaseLayout.astro",
+        "public/favicon.svg"
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "Data Model + Componentes de Conteúdo (Hero, Cards, Grid, Newsletter, Footer)",
+      "description": "Criar o arquivo de dados recipes.ts com exatamente 6 receitas tipadas, e todos os componentes Astro: HeroSection, RecipeCard, RecipeGrid, NewsletterSection e footer inline no index.astro. Montar index.astro orquestrando todos os componentes dentro do BaseLayout.",
+      "requiredSpecialist": "FrontendSpecialist",
+      "dependencies": [
+        "T1"
+      ],
+      "acceptanceCriteria": [
+        "src/data/recipes.ts exporta array recipes com exatamente 6 itens, cada um com campos: id, title, description, category, totalTime, emoji, placeholderGradient",
+        "HeroSection.astro renderiza section#hero bg-amber-50, h1 com tagline, p com subtítulo, a href='#receitas' com classes bg-amber-500 hover:bg-amber-600 text-white transition-colors duration-200 — sem script ou client:*",
+        "RecipeCard.astro aceita prop recipe: Recipe e renderiza: div h-48 bg-gradient-to-br com emoji centralizado via flexbox, span badge category, h3 title, p description com line-clamp-2, linha com ⏱ e totalTime — hover:shadow-lg transition-shadow duration-200",
+        "RecipeGrid.astro tem id='receitas', grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6, itera recipes.map() renderizando RecipeCard — exatamente 6 cards no HTML gerado",
+        "NewsletterSection.astro tem section bg-amber-500, form com action='#' sem method POST sem JS, label for='newsletter-email', input type=email id='newsletter-email' placeholder descritivo, button type=submit bg-stone-800 text-white, layout flex flex-col sm:flex-row gap-3",
+        "Footer renderiza © 2025 RecipeHub com bg-stone-800 text-stone-400",
+        "index.astro importa BaseLayout e todos os componentes em ordem: header/nav simples, HeroSection, RecipeGrid, NewsletterSection, footer",
+        "Nenhum client:* directive usado em nenhum componente",
+        "Nenhuma tag img com src externo — placeholder é div com bg-gradient-to-br",
+        "Typecheck passa (tsc --noEmit)",
+        "astro build conclui sem erros e gera dist/index.html com tamanho > 0",
+        "grep '<script' dist/index.html não retorna scripts de bundle da aplicação"
+      ],
+      "subtasks": [
+        "Criar src/data/recipes.ts com interface Recipe e array de 6 receitas hardcoded com gradientes e emojis variados",
+        "Criar src/components/HeroSection.astro conforme REQ-006",
+        "Criar src/components/RecipeCard.astro com prop tipada Recipe conforme REQ-007 — confirmar tailwind >= 3.3 para line-clamp-2 nativo",
+        "Criar src/components/RecipeGrid.astro importando recipes e RecipeCard conforme REQ-008",
+        "Criar src/components/NewsletterSection.astro com form action='#' e layout responsivo conforme REQ-009 e CE-002",
+        "Criar src/pages/index.astro montando todos os componentes dentro do BaseLayout com estrutura semântica header/main/footer",
+        "Executar astro build localmente e verificar dist/index.html gerado sem scripts de bundle"
+      ],
+      "targetFiles": [
+        "src/data/recipes.ts",
+        "src/components/HeroSection.astro",
+        "src/components/RecipeCard.astro",
+        "src/components/RecipeGrid.astro",
+        "src/components/NewsletterSection.astro",
+        "src/pages/index.astro"
+      ]
+    }
+  ]
+}
