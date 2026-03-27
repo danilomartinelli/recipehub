@@ -1,0 +1,61 @@
+{
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "Scaffoldar projeto Astro standalone e implementar landing page completa",
+      "description": "Inicializar o projeto recipehub-web com pnpm create astro, configurar astro.config.mjs com output: 'static', instalar @astrojs/tailwind e @astrojs/cloudflare, criar todos os componentes (Hero, RecipeCard, RecipeGrid, NewsletterForm), layouts, dados hardcoded de receitas, wrangler.toml e imagem placeholder. Entregar o projeto buildável com zero JS no cliente.",
+      "requiredSpecialist": "FrontendSpecialist",
+      "dependencies": [],
+      "acceptanceCriteria": [
+        "pnpm run build executa sem erros e gera a pasta dist/",
+        "astro.config.mjs contém output: 'static', adapter cloudflare() e integração tailwind()",
+        "tsconfig.json contém strict: true",
+        "grep -r 'client:' src/ retorna vazio (zero diretivas de hydration)",
+        "grep -r '<script' src/ retorna vazio (zero scripts inline nos componentes)",
+        "dist/index.html não contém tags <script> com JavaScript de aplicação",
+        "Hero.astro renderiza <h1> único, parágrafo de subtítulo e <a href='#receitas'> com classes bg-green-500 hover:bg-green-600 text-white",
+        "RecipeGrid.astro renderiza exatamente 6 RecipeCard components com classes grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
+        "Cada RecipeCard possui atributo data-recipe-card, <img> com loading='lazy' width='600' height='400', <h3> com título e badge de tempo de preparo",
+        "NewsletterForm.astro contém <label>, <input type='email'> e <button type='submit'> sem atributo action real e sem scripts",
+        "BaseLayout.astro inclui <meta charset>, <meta name='viewport'>, <title> e <meta name='description'> no <head>",
+        "Arquivo public/images/placeholder-card.jpg existe no repositório",
+        "wrangler.toml contém pages_build_output_dir = 'dist'",
+        "src/data/recipes.ts exporta array recipes com exatamente 6 itens do tipo Recipe com todos os campos preenchidos",
+        "package.json contém scripts dev, build e preview",
+        "Responsividade: layout funciona em 375px (mobile) e 1280px (desktop) sem overflow horizontal"
+      ],
+      "subtasks": [
+        "1. Scaffoldar projeto: pnpm create astro em recipehub-web/, selecionar template minimal, confirmar TypeScript",
+        "2. Instalar dependências: pnpm add @astrojs/tailwind @astrojs/cloudflare tailwindcss",
+        "3. Criar astro.config.mjs com output: 'static', adapter: cloudflare(), integrations: [tailwind()]",
+        "4. Criar tailwind.config.mjs com content apontando para src/**/*.{astro,ts}",
+        "5. Atualizar tsconfig.json com strict: true e paths adequados",
+        "6. Adicionar imagem placeholder em public/images/placeholder-card.jpg (600x400px, qualquer imagem genérica de comida)",
+        "7. Criar src/data/recipes.ts com interface Recipe e array hardcoded de 6 receitas conforme shape do PRD seção 2.3",
+        "8. Criar src/layouts/BaseLayout.astro com <head> completo (charset, viewport, title, description) e slot para conteúdo",
+        "9. Criar src/components/Hero.astro com <h1> 'Descubra Receitas Incríveis', parágrafo subtítulo e <a href='#receitas'> estilizado como botão verde",
+        "10. Criar src/components/RecipeCard.astro aceitando prop recipe: Recipe, renderizando <article data-recipe-card>, <img loading='lazy' width='600' height='400'>, <h3> e badge de tempo",
+        "11. Criar src/components/RecipeGrid.astro importando recipes[], iterando e renderizando 6 RecipeCard com grid responsivo",
+        "12. Criar src/components/NewsletterForm.astro com <section bg-gray-50>, <label>, <input type='email'> com aria-label e <button type='submit'> verde",
+        "13. Criar src/pages/index.astro compondo BaseLayout > Hero + RecipeGrid (id='receitas') + NewsletterForm",
+        "14. Criar wrangler.toml com pages_build_output_dir = 'dist'",
+        "15. Executar pnpm run build e verificar dist/index.html confirma ausência de <script> de aplicação"
+      ],
+      "targetFiles": [
+        "recipehub-web/astro.config.mjs",
+        "recipehub-web/tailwind.config.mjs",
+        "recipehub-web/tsconfig.json",
+        "recipehub-web/wrangler.toml",
+        "recipehub-web/package.json",
+        "recipehub-web/public/images/placeholder-card.jpg",
+        "recipehub-web/src/data/recipes.ts",
+        "recipehub-web/src/layouts/BaseLayout.astro",
+        "recipehub-web/src/components/Hero.astro",
+        "recipehub-web/src/components/RecipeCard.astro",
+        "recipehub-web/src/components/RecipeGrid.astro",
+        "recipehub-web/src/components/NewsletterForm.astro",
+        "recipehub-web/src/pages/index.astro"
+      ]
+    }
+  ]
+}
