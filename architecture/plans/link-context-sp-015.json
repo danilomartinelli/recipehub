@@ -1,0 +1,18 @@
+{
+  "status": "ready",
+  "canProceed": true,
+  "missingSecrets": [],
+  "architectNotes": [
+    "[INFO]: Sprint sp-015 é um projeto Astro STANDALONE — NÃO usa Turborepo, pnpm workspaces nem nenhum pacote de `packages/`. Ignorar referências ao monorepo da doutrina global para esta sprint.",
+    "[INFO]: Nenhum binding Cloudflare (D1, R2, KV, Queues) é utilizado. A página é 100% estática — `output: 'static'` em `astro.config.mjs` é obrigatório. NÃO usar `output: 'server'` ou `output: 'hybrid'`.",
+    "[INFO]: Zero JavaScript no cliente é Hard Constraint. O Stylizer/Executor NÃO deve usar nenhuma diretiva `client:*` (client:load, client:idle, client:visible) em nenhum componente. Verificação pós-build: `grep -r 'client:' src/` deve retornar vazio.",
+    "[INFO]: NÃO usar `<Image />` de `astro:assets` — usar `<img>` HTML nativo com `loading='lazy'`, `width='600'` e `height='400'` explícitos para CLS=0.",
+    "[INFO]: O formulário de newsletter é VISUAL apenas — sem atributo `action` real, sem `<script>`, sem event listeners. Comportamento padrão do browser ao submeter é aceitável (noop/reload).",
+    "[INFO]: Estrutura de diretórios esperada é `recipehub-web/` como root standalone. O Executor deve scaffoldar via `pnpm create astro` e instalar `@astrojs/tailwind` + `@astrojs/cloudflare`.",
+    "[INFO]: `wrangler.toml` deve conter `pages_build_output_dir = \"dist\"` para deploy no Cloudflare Pages via `wrangler pages deploy dist/`.",
+    "[INFO]: Paleta de cores já definida no PRD — accent é `green-500` (#22c55e) com hover `green-600`. Nenhuma customização de `tailwind.config.mjs` é necessária além da integração padrão.",
+    "[INFO]: Cada `RecipeCard.astro` DEVE ter atributo `data-recipe-card` para permitir validação via `document.querySelectorAll('[data-recipe-card]').length === 6`.",
+    "[INFO]: A imagem `public/images/placeholder-card.jpg` deve ser commitada no repositório — todos os 6 cards reutilizam o mesmo arquivo. Dimensões recomendadas: 600×400px."
+  ],
+  "reuseCandidates": []
+}
