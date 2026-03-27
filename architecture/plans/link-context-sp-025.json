@@ -1,0 +1,16 @@
+{
+  "status": "ready",
+  "canProceed": true,
+  "missingSecrets": [],
+  "architectNotes": [
+    "[PRD-CONSTRAINT]: Este é um projeto Astro STANDALONE (REQ-001). NÃO utilizar monorepo, Turborepo, pnpm workspaces, apps/ ou packages/. O entrypoint é src/index.ts — neste caso, src/pages/index.astro na raiz do projeto standalone.",
+    "[PRD-CONSTRAINT]: output: 'static' é OBRIGATÓRIO no astro.config.mjs. Nenhuma diretiva client:* é permitida em nenhum componente .astro. Zero JS no bundle de cliente é hard constraint (REQ-002, REQ-003).",
+    "[PRD-CONSTRAINT]: Classes de gradiente dinâmicas (from-*, to-*) DEVEM estar no safelist do tailwind.config.mjs para evitar purge incorreto pelo Tailwind (Caso Limite 7.2). O PRD fornece o safelist completo na Seção 8.2.",
+    "[PRD-CONSTRAINT]: @astrojs/cloudflare adapter NÃO é necessário nesta sprint. O output static é servido diretamente pelo Cloudflare Pages sem adapter (Seção 7.3, nota final).",
+    "[PRD-CONSTRAINT]: Adicionar NODE_VERSION=18 nas variáveis de ambiente de BUILD do Cloudflare Pages (não é secret de runtime — é config de build). Isso garante compatibilidade com Astro 4.x (Caso Limite 7.2).",
+    "[PRD-DATA]: O tipo Recipe e o array recipes devem ser exportados de src/data/recipes.ts com os campos: title, category, prepTimeLabel, emoji, gradientFrom (ex: 'from-amber-400'), gradientTo (ex: 'to-orange-600'). Exatamente 6 receitas hardcoded.",
+    "[CLOUDFLARE]: Zero bindings Cloudflare nesta sprint. D1, R2, KV, Queues e Workers estão explicitamente fora do escopo. Deploy é Cloudflare Pages servindo HTML/CSS estático puro.",
+    "[INFRA]: Zero variáveis de ambiente de runtime. Zero secrets. Zero chamadas de rede em runtime. O painel do Cloudflare Pages deve ser configurado sem nenhuma env var (exceto NODE_VERSION=18 na seção de build)."
+  ],
+  "reuseCandidates": []
+}
